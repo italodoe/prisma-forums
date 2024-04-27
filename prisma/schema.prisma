@@ -9,3 +9,29 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Forum {
+  forumId   Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model User {
+  userId    Int       @id @default(autoincrement())
+  nick      String    @unique
+  fullName  String?
+  createdAt DateTime  @default(now())
+  admin     Boolean   @default(false)
+  messages  Message[]
+}
+
+model Message {
+  messageId Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  forum   Forum @relation(fields: [forumId], references: [forumId])
+  forumId Int
+  user    User  @relation(fields: [userId], references: [userId])
+  userId  Int
+}
