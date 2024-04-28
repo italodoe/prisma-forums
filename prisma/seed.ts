@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-
 const db = new PrismaClient();
 
 const backendForum = await db.forum.create({
